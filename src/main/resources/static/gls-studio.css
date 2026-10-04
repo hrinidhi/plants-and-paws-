@@ -1,0 +1,161 @@
+﻿#glsStudioIntro {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f5ec;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .7s ease, visibility .7s ease;
+}
+
+#glsStudioIntro.glsStudioIntroHide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#glsStudioIntro .glsStudioCard {
+    width: min(88vw, 500px);
+    padding: 55px 35px 48px;
+    text-align: center;
+    border: 1px solid #e4e7de;
+    border-radius: 32px;
+    background: rgba(255,253,248,.94);
+    box-shadow: 0 25px 70px rgba(35,61,44,.12);
+    animation: glsStudioEnter .9s ease both;
+}
+
+#glsStudioIntro .glsStudioName {
+    color: #244936;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+#glsStudioIntro .glsStudioPresents {
+    margin-top: 8px;
+    color: #718077;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+#glsStudioIntro .glsStudioPlant {
+    margin: 30px auto 25px;
+    width: 105px;
+    height: 105px;
+    position: relative;
+    animation: glsStudioFloat 2.8s ease-in-out infinite;
+}
+
+#glsStudioIntro .glsStudioStem {
+    position: absolute;
+    width: 5px;
+    height: 58px;
+    left: 50px;
+    top: 25px;
+    border-radius: 10px;
+    background: #557d5f;
+}
+
+#glsStudioIntro .glsStudioLeaf {
+    position: absolute;
+    width: 42px;
+    height: 25px;
+    border-radius: 100% 0 100% 0;
+    background: #6d9575;
+}
+
+#glsStudioIntro .glsStudioLeafA {
+    left: 13px;
+    top: 27px;
+    transform: rotate(-32deg);
+}
+
+#glsStudioIntro .glsStudioLeafB {
+    left: 51px;
+    top: 18px;
+    transform: rotate(32deg);
+}
+
+#glsStudioIntro .glsStudioLeafC {
+    left: 32px;
+    top: 8px;
+    width: 36px;
+    height: 22px;
+    transform: rotate(-3deg);
+}
+
+#glsStudioIntro .glsStudioPot {
+    position: absolute;
+    left: 27px;
+    bottom: 4px;
+    width: 52px;
+    height: 35px;
+    border-radius: 5px 5px 18px 18px;
+    background: #c99b73;
+}
+
+#glsStudioIntro .glsStudioPotTop {
+    position: absolute;
+    left: 23px;
+    bottom: 34px;
+    width: 60px;
+    height: 9px;
+    border-radius: 20px;
+    background: #9b7355;
+}
+
+#glsStudioIntro .glsStudioTitle {
+    margin: 0;
+    color: #183528;
+    font-size: clamp(30px, 7vw, 48px);
+    font-weight: 850;
+    letter-spacing: -2px;
+}
+
+#glsStudioIntro .glsStudioTagline {
+    margin-top: 10px;
+    color: #6d9575;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+#glsStudioIntro .glsStudioDots {
+    margin-top: 25px;
+    color: #6d9575;
+    font-size: 16px;
+    letter-spacing: 6px;
+    animation: glsStudioDots 1.2s ease-in-out infinite;
+}
+
+@keyframes glsStudioEnter {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes glsStudioFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes glsStudioDots {
+    0%, 100% {
+        opacity: .35;
+    }
+    50% {
+        opacity: 1;
+    }
+}

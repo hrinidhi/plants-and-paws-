@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f8f6ef"><title>Trust &amp; Safety · Plants &amp; Paws</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><nav class="nav" aria-label="Main navigation"></nav><main class="wrap admin-layout">
+  <aside class="side"><h2>&#127807; Community desk</h2><a href="/admin/verification" aria-current="page">Trust &amp; Safety</a><a href="/reports">Submit a report</a><a href="/my-reports">Report tracker</a><a href="/">Return home</a></aside>
+  <section class="admin-main"><header class="page-intro" style="padding-top:8px"><span class="eyebrow">Review workspace</span><h1>Trust &amp; Safety</h1><p>Review submitted community reports and record a moderation decision.</p></header>
+    <div class="demo-note">&#9432; <p>Moderation controls are currently accessible without account authentication. Do not expose this app publicly as a secured moderation tool.</p></div>
+    <div id="adminMessage" class="form-result" role="status" aria-live="polite"></div>
+    <div class="stats"><div class="stat"><span class="stat-label">Pending verification</span><b id="pending">—</b></div><div class="stat"><span class="stat-label">Animal reports · pending</span><b id="animals">—</b></div><div class="stat"><span class="stat-label">Plant reports · pending</span><b id="plants">—</b></div></div>
+    <div class="section-head"><div><h2>Recent reports</h2><p>Pending reports include review actions.</p></div><button class="btn alt" id="refreshAdmin" type="button">Refresh</button></div><div id="reports" aria-live="polite"><div class="empty-state">Loading review queue…</div></div>
+  </section>
+</main><footer class="footer"><div class="wrap footer-inner"><strong>Plants &amp; Paws</strong><span>Fair review helps build trust.</span></div></footer>
+<script>
+  function validProofUrl(value) { return value && /^https?:\/\//i.test(value) ? value : ""; }
+  function adminReportCard(report) {
+    const status = String(report.status || "PENDING").toLowerCase();
+    const proofUrl = validProofUrl(report.proofUrl);
+    const proof = proofUrl ? `<a class="btn alt small" href="${escapeHtml(proofUrl)}" target="_blank" rel="noopener noreferrer">View evidence</a>` : "";
+    const actions = status === "pending" ? `<div class="actions"><button class="btn small" type="button" onclick="decision(${Number(report.id)},'approve')">Approve</button><button class="btn alt small" type="button" onclick="decision(${Number(report.id)},'reject')">Reject</button></div>` : "";
+    return `<article class="card report-card"><div class="card-body"><div class="card-title-row"><div><span class="eyebrow">${escapeHtml(report.type || "Report")} · ID #${escapeHtml(report.id)}</span><h3>${escapeHtml(report.title)}</h3></div><span class="status ${status}">${escapeHtml(report.status || "PENDING")}</span></div><p>${escapeHtml(report.description)}</p><div class="card-meta"><span>&#128205; ${escapeHtml(report.location || "No location")}</span><span>From ${escapeHtml(report.reporter || "Anonymous")}</span><span>${escapeHtml(report.createdAt ? new Date(report.createdAt).toLocaleString() : "Date unavailable")}</span></div>${proof}<details class="report-details"><summary class="text-link">View details</summary><p class="small-text">Report #${escapeHtml(report.id)} · ${escapeHtml(report.type)} · ${escapeHtml(report.status)}${report.proofUrl && !proofUrl ? " · Evidence link is not a valid http(s) URL." : ""}</p></details>${actions}</div></article>`;
+  }
+  async function loadAdmin() {
+    const message = document.querySelector("#adminMessage");
+    const host = document.querySelector("#reports");
+    message.textContent = "";
+    host.innerHTML = "<div class='empty-state'>Loading review queue…</div>";
+    try {
+      const [stats, reports] = await Promise.all([api("/api/reports/stats"), api("/api/reports")]);
+      document.querySelector("#pending").textContent = stats.pending;
+      document.querySelector("#animals").textContent = stats.animals;
+      document.querySelector("#plants").textContent = stats.plants;
+      const recent = reports.slice(0, 20);
+      host.innerHTML = recent.length ? recent.map(adminReportCard).join("") : "<div class='empty-state'><strong>All caught up!</strong><p>No community reports have been submitted yet.</p></div>";
+    } catch (error) {
+      host.innerHTML = "<div class='empty-state' role='alert'><strong>The review queue could not be loaded.</strong><p>Please check that the server is running and try again.</p></div>";
+      message.textContent = "Could not load current review statistics.";
+      message.className = "form-result error";
+    }
+  }
+  async function decision(id, action) {
+    const message = document.querySelector("#adminMessage");
+    message.textContent = "";
+    try {
+      await api(`/api/reports/${id}/${action}`, { method: "POST" });
+      await loadAdmin();
+      message.className = "form-result success";
+      message.textContent = action === "approve" ? `Report #${id} approved.` : `Report #${id} rejected.`;
+    } catch (error) {
+      message.className = "form-result error";
+      message.textContent = `Could not ${action} report #${id}. Please refresh and try again.`;
+    }
+  }
+  document.querySelector("#refreshAdmin").addEventListener("click", loadAdmin);
+  loadAdmin();
+</script></body></html>

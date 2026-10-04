@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f8f6ef"><title>Share a report · Plants &amp; Paws</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><nav class="nav" aria-label="Main navigation"></nav><main class="wrap">
+  <header class="page-intro"><span class="eyebrow">&#128203; Notice something? Let us know.</span><h1>Share a community report</h1><p>Your report will be added to the review queue. Include clear details and a proof link if one is available.</p></header>
+  <section class="form"><div class="demo-note">&#9432; <p>Reports are submitted to the existing Plants &amp; Paws review API. Please do not include sensitive personal information in public report details.</p></div>
+    <form id="reportForm" onsubmit="event.preventDefault(); submitReport()">
+      <div class="field"><label for="type">What is your report about?</label><select id="type" name="type" required><option value="ANIMAL">Animal care</option><option value="PLANT">Plant or green space</option></select></div>
+      <div class="field"><label for="title">Short title</label><input id="title" name="title" required maxlength="160" placeholder="Example: Injured dog near the park"></div>
+      <div class="field"><label for="description">What did you observe?</label><textarea id="description" name="description" required maxlength="2000" placeholder="Share useful details so the community can understand..."></textarea></div>
+      <div class="field-grid"><div class="field"><label for="location">Location or nearby landmark</label><input id="location" name="location" placeholder="Area / landmark"></div><div class="field"><label for="reporter">Your name (optional)</label><input id="reporter" name="reporter" placeholder="Name"></div></div>
+      <div class="field"><label for="proofUrl">Evidence link (optional)</label><input id="proofUrl" name="proofUrl" type="url" placeholder="https://..."><span class="field-hint">The current API accepts a URL; direct photo upload is not available.</span></div>
+      <button class="btn" id="submitReportButton" type="submit">Submit for review</button><p id="result" class="form-result" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</main><footer class="footer"><div class="wrap footer-inner"><strong>Plants &amp; Paws</strong><span>Thank you for looking out for your community. &#127807;</span></div></footer><script src="/reports.js"></script></body></html>

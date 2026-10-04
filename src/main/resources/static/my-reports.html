@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f8f6ef"><title>Reports · Plants &amp; Paws</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><nav class="nav" aria-label="Main navigation"></nav><main class="wrap">
+  <header class="page-intro"><span class="eyebrow">&#128203; Community activity</span><h1>Report tracker</h1><p>See reports currently recorded by Plants &amp; Paws and their review status.</p><div class="demo-note" style="margin-top:15px">&#9432; <p>There is no sign-in or report ownership feature yet. This page shows all reports submitted to the platform, not just your own.</p></div></header>
+  <section class="section"><div class="section-head"><div><h2>Recent reports</h2><p>Newest submissions appear first.</p></div><button class="btn alt" id="refreshReports" type="button">Refresh list</button></div><div id="list" aria-live="polite"><div class="empty-state">Loading reports…</div></div></section>
+</main><footer class="footer"><div class="wrap footer-inner"><strong>Plants &amp; Paws</strong><span>Transparent updates for a caring community. &#127807;</span></div></footer>
+<script>
+  function safeDate(value) { const date = value ? new Date(value) : null; return date && !Number.isNaN(date.getTime()) ? date.toLocaleString() : "Date unavailable"; }
+  function reportCard(report) {
+    const status = String(report.status || "PENDING").toLowerCase();
+    const proof = report.proofUrl && /^https?:\/\//i.test(report.proofUrl) ? `<a class="btn alt small report-proof" href="${escapeHtml(report.proofUrl)}" target="_blank" rel="noopener noreferrer">View evidence</a>` : "";
+    return `<article class="card report-card"><div class="card-body"><div class="card-title-row"><div><span class="eyebrow">${escapeHtml(report.type || "Report")} · ID #${escapeHtml(report.id)}</span><h3>${escapeHtml(report.title)}</h3></div><span class="status ${status}">${escapeHtml(report.status || "PENDING")}</span></div><p>${escapeHtml(report.description)}</p><div class="card-meta"><span>&#128205; ${escapeHtml(report.location || "Location not provided")}</span><span>&#128336; ${escapeHtml(safeDate(report.createdAt))}</span></div>${report.reporter ? `<p class="small-text">Submitted by ${escapeHtml(report.reporter)}</p>` : ""}${proof}<details class="report-details"><summary class="text-link">View report details</summary><p class="small-text">Report #${escapeHtml(report.id)} was submitted for community review. Current status: ${escapeHtml(report.status || "PENDING")}.</p></details></div></article>`;
+  }
+  async function loadReports() {
+    const list = document.querySelector("#list");
+    list.innerHTML = "<div class='empty-state'>Loading reports…</div>";
+    try {
+      const reports = await api("/api/reports");
+      list.innerHTML = reports.length ? reports.map(reportCard).join("") : "<div class='empty-state'><strong>No reports just yet.</strong><p>When someone shares a community concern, it will appear here.</p><a class='btn' href='/reports'>Create a report</a></div>";
+    } catch (error) {
+      list.innerHTML = "<div class='empty-state' role='alert'><strong>Reports could not be loaded.</strong><p>Please check your connection and try again.</p><button class='btn alt' type='button' onclick='loadReports()'>Try again</button></div>";
+    }
+  }
+  document.querySelector("#refreshReports").addEventListener("click", loadReports);
+  loadReports();
+</script></body></html>

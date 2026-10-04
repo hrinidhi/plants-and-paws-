@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f8f6ef"><title>Sign in · Plants &amp; Paws</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><nav class="nav" aria-label="Main navigation"></nav><main class="wrap"><section class="form">
+  <span class="eyebrow">&#128062; Welcome back</span><h1>Good to see you</h1><p>Sign in to continue your community journey.</p>
+  <div class="demo-note">&#9432; <p>A caring community for animals, plants and the people who love them.</p></div>
+  <form id="loginForm"><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></div><div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Your password"></div><button class="btn" type="submit">Sign in</button><p id="authMessage" class="form-result" role="status" aria-live="polite"></p></form>
+  <p class="small-text">New to Plants &amp; Paws? <a class="text-link" href="/register">Create your account</a></p>
+</section></main><footer class="footer"><div class="wrap footer-inner"><strong>Plants &amp; Paws</strong><span>Real care, built together.</span></div></footer>
+<script>document.querySelector("#loginForm").addEventListener("submit", event => { event.preventDefault(); document.querySelector("#authMessage").textContent = "Thank you for connecting with Plants & Paws."; document.querySelector("#authMessage").className = "form-result"; });</script></body></html>

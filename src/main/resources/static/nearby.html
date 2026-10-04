@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f8f6ef"><title>Nearby help · Plants &amp; Paws</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script></head>
+<body><nav class="nav" aria-label="Main navigation"></nav><main class="wrap">
+  <header class="page-intro"><span class="eyebrow">&#128205; Neighbours helping neighbours</span><h1>Find a little local help</h1><p>Search real OpenStreetMap places and explore them on an interactive map. Results depend on OpenStreetMap coverage in your area.</p><div class="demo-note" style="margin-top:15px">&#9432; <p>Your location is only requested when you choose “Use my location.” If you search or share location, the selected area or coordinates are sent to OpenStreetMap search services for results. Place details may be incomplete. For emergencies, contact verified local emergency services directly.</p></div></header>
+  <section class="section nearby-map-section" aria-label="Interactive nearby services map">
+    <div class="nearby-controls">
+      <form id="locationSearchForm" class="nearby-search"><label class="search-wrap"><input id="nearbySearch" class="search-input" type="search" placeholder="Search a city or neighbourhood..." aria-label="Search map location"></label><button class="btn small" type="submit">Search location</button></form>
+      <button class="btn alt small" id="useMyLocation" type="button">&#9678; Use my location</button>
+    </div>
+    <div id="map" class="nearby-map" role="application" aria-label="Interactive OpenStreetMap"></div>
+    <p id="mapMessage" class="form-result" role="status" aria-live="polite">Loading OpenStreetMap…</p>
+  </section>
+  <section class="section" aria-label="Nearby service directory">
+    <div class="section-head"><div><h2>Nearby results</h2><p id="resultSummary">Places mapped from OpenStreetMap data.</p></div></div>
+    <div class="toolbar"><div class="filter-row" aria-label="Filter by service category"><button class="filter-chip" type="button" data-nearby-filter="all" aria-pressed="true">All help</button><button class="filter-chip" type="button" data-nearby-filter="veterinary" aria-pressed="false">Vets</button><button class="filter-chip" type="button" data-nearby-filter="shelter" aria-pressed="false">Shelters</button><button class="filter-chip" type="button" data-nearby-filter="rescue" aria-pressed="false">Rescue</button><button class="filter-chip" type="button" data-nearby-filter="emergency" aria-pressed="false">Emergency</button><button class="filter-chip" type="button" data-nearby-filter="pet" aria-pressed="false">Pet services</button><button class="filter-chip" type="button" data-nearby-filter="plant" aria-pressed="false">Plant services</button></div>
+    </div><div id="nearbyCards" class="grid"></div><div id="nearbyEmpty" class="empty-state" hidden>No matching places are mapped in this area. Try another category or location.</div>
+  </section>
+</main><footer class="footer"><div class="wrap footer-inner"><strong>Plants &amp; Paws</strong><span>Map tiles &amp; place data &copy; OpenStreetMap contributors.</span></div></footer><script src="/nearby.js"></script></body></html>
